@@ -17,8 +17,22 @@ public class Main extends Utils {
     }
 
     private static int getAvailableTime(Scanner scanner) {
-        System.out.println("\nEnter your available time in hours:");
-        return scanner.nextInt() * 60;
+        int time = 0; 
+        boolean validInput = false; 
+
+        //validating user input
+        while (!validInput) {
+            System.out.println("\nEnter your available time in hours:");
+            if (scanner.hasNextInt()) { 
+                time = scanner.nextInt() * 60;
+                validInput = true; 
+            } else {
+                System.out.println("\n >> Invalid input. Please enter digits only.");
+                scanner.next(); 
+            }
+        }
+    return time;
+        
     }
 
     private static List<String> getPreferredGenres(Scanner scanner) {
@@ -33,13 +47,16 @@ public class Main extends Utils {
     }
 
     private static void displayOptimalSchedule(List<TVShow> optimalSchedule) {
-        System.out.println("\nOptimal Binge-Watching Schedule:");
+        System.out.println("\nOptimal Binge-Watching Schedule: " + optimalSchedule.size() + " shows to watch.");
         int count = 1;
+        int runtime = 0;
         for (TVShow show : optimalSchedule) {
             System.out.println(count + ") " + show.title);
-            count++;48
+            runtime += show.totalDuration;
+            count++;
         }
-        System.out.println("Total Value: " + computeTotalValue(optimalSchedule)); //I'm not sure this is needed 
+        System.out.println("Total Runtime is approximately is " + runtime/60 + " hours.");
+        // System.out.println("Total Value: " + computeTotalValue(optimalSchedule)); not sure this needs to be displayed
     }
 
 
