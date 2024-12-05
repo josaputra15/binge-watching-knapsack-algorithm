@@ -17,8 +17,8 @@ public class Main extends Utils {
     }
 
     private static int getAvailableTime(Scanner scanner) {
-        System.out.println("\nEnter your available time in minutes:");
-        return scanner.nextInt();
+        System.out.println("\nEnter your available time in hours:");
+        return scanner.nextInt() * 60;
     }
 
     private static List<String> getPreferredGenres(Scanner scanner) {
@@ -34,10 +34,12 @@ public class Main extends Utils {
 
     private static void displayOptimalSchedule(List<TVShow> optimalSchedule) {
         System.out.println("\nOptimal Binge-Watching Schedule:");
+        int count = 1;
         for (TVShow show : optimalSchedule) {
-            System.out.println(show);
+            System.out.println(count + ") " + show.title);
+            count++;48
         }
-        System.out.println("Total Value: " + computeTotalValue(optimalSchedule));
+        System.out.println("Total Value: " + computeTotalValue(optimalSchedule)); //I'm not sure this is needed 
     }
 
 
