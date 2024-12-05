@@ -35,13 +35,27 @@ public class Main extends Utils {
         
     }
 
-    private static List<String> getPreferredGenres(Scanner scanner) {
+    private static List<String> getPreferredGenres(Scanner scanner, EditDistance editDistance, Database db) {
         System.out.println("Enter your preferred genres (comma separated):");
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
         String[] preferredGenres = scanner.nextLine().split(", ");
         List<String> preferredGenreList = new ArrayList<>();
+
         for (String genre : preferredGenres) {
-            preferredGenreList.add(genre.trim());
+            genre = genre.trim();
+            String suggestedGenre = editDistance.suggestGenre(genre, db.tvShows);
+
+            if (!suggestedGenre.equals("No close match found.") && !suggestedGenre.equalsIgnoreCase(genre)) {
+                System.out.println(" >> Did you mean: " + suggestedGenre + "? (y/n)");
+                String response = scanner.nextLine().trim();
+                if (response.equalsIgnoreCase("y")) {
+                    preferredGenreList.add(suggestedGenre);
+                } else {
+                    preferredGenreList.add(genre);  // sse the original genre if user disagrees
+                }
+            } else {
+                preferredGenreList.add(suggestedGenre);  // add genre if it's a good match or no match
+            }
         }
         return preferredGenreList;
     }
@@ -64,13 +78,14 @@ public class Main extends Utils {
     public static void main(String[] args) {
         Database db = new Database();
         Scanner scanner = new Scanner(System.in);
+        EditDistance editDistance = new EditDistance();
 
         // Display available contents (movies and genres)
         displayAvailableShowsAndGenres(db);
 
         // Get user inputs
         int availableTime = getAvailableTime(scanner);
-        List<String> preferredGenres = getPreferredGenres(scanner);
+        List<String> preferredGenres = getPreferredGenres(scanner, editDistance, db);
 
         // Compute weighted values for the contents
         computeShowValues(db.getTVShows(), preferredGenres);
