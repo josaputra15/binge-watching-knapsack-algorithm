@@ -60,6 +60,36 @@ public class Main extends Utils {
         return preferredGenreList;
     }
 
+    private static List<String> getPreferredShows(Scanner scanner, EditDistance editDistance, Database db) {
+        System.out.println("Enter your list of shows you want to watch (IN ORDER, comma separated):");
+        String input = scanner.nextLine().trim();
+    
+        String[] preferredShows = input.split("\\s*,\\s*");
+        List<String> preferredShowsList = new ArrayList<>();
+    
+        for (String pref : preferredShows) {
+            pref = pref.trim();
+            String suggestedShow = editDistance.suggestShow(pref, db);
+    
+            if (!suggestedShow.equals("No close match found.") && !suggestedShow.equalsIgnoreCase(pref)) {
+                System.out.println(" >> Did you mean: " + suggestedShow + "? (y/n)");
+                String response = scanner.nextLine().trim().toLowerCase();
+    
+                if (response.equals("y")) {
+                    preferredShowsList.add(suggestedShow);
+                } else {
+                    preferredShowsList.add(pref); 
+                }
+            } else if (!suggestedShow.equals("No close match found.")) {
+                preferredShowsList.add(suggestedShow);
+            } else {
+                System.out.println(" >> Show not recognized: " + pref);
+            }
+        }
+    
+        return preferredShowsList;
+    }
+
     private static void displayOptimalSchedule(List<TVShow> optimalSchedule) {
         System.out.println("\nOptimal Binge-Watching Schedule: " + optimalSchedule.size() + " shows to watch.");
         int count = 1;
@@ -86,8 +116,11 @@ public class Main extends Utils {
         int availableTime = getAvailableTime(scanner);
         List<String> preferredGenres = getPreferredGenres(scanner, editDistance, db);
 
+        //add user input for preference
+        List<String> preferredShows = getPreferredShows(scanner, editDistance, db);
+
         // Compute weighted values for the contents
-        computeShowValues(db.getTVShows(), preferredGenres);
+        computeShowValues(db.getTVShows(), preferredGenres, preferredShows);
 
         // Optimal Schedule
         List<TVShow> optimalSchedule = getOptimalSchedule(db.getTVShows(), availableTime);
