@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,31 +28,43 @@ public class EditDistance {
                 closestGenre = genre;
             }
         }
-    
-        // for (TVShow show : tvshows) {
-        //     String[] genres = show.genre.toLowerCase().split(", ");
-            
-        //     for (String genre : genres) {
-        //         System.out.println("Comparing to genre: " + genre);  //testing
-    
-        //         if (genre.equals(input)) {
-        //             return genre;  // Exact match found
-        //         }
-    
-        //         int distance = calculateEditDistance(input, genre);
-        //         System.out.println("Distance to " + genre + ": " + distance);  
-    
-        //         if (distance < minDistance) {
-        //             minDistance = distance;
-        //             closestGenre = genre;
-        //         }
-        //     }
-        // }
-    
         System.out.println("Suggested Genre: " + closestGenre);  //testing
         
         return closestGenre != null ? closestGenre : "No close match found.";
     }
+
+    public String suggestShow(String input, Database db) {
+        String closestShow = null;
+        int minDistance = Integer.MAX_VALUE; 
+    
+        input = input.toLowerCase().trim(); 
+    
+        List<String> showsDB = new ArrayList<>();
+        for (TVShow show : db.getTVShows()) {
+            showsDB.add(show.title);
+        }
+    
+        for (String show : showsDB) {
+            String normalizedShow = show.toLowerCase().trim(); 
+    
+            if (normalizedShow.equals(input)) {
+                return show; // 
+            }
+    
+            int distance = calculateEditDistance(input, normalizedShow);
+    
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestShow = show;
+            }
+        }
+    
+        // Return closest match or indicate no match found.
+        System.out.println(closestShow);
+        return closestShow != null ? closestShow : "No close match found.";
+        
+    }
+    
 
     private int calculateEditDistance(String str1, String str2) {
         int n = str1.length();

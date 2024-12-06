@@ -42,7 +42,8 @@ public class Utils {
         currentList.remove(currentList.size() - 1); // this is the backtracking step where that this recursive function can explore other paths without interference from previously added movies.
     }
 
-    public static void computeShowValues(List<TVShow> tvShows, List<String> preferredGenres) {
+    public static void computeShowValues(List<TVShow> tvShows, List<String> preferredGenres, List<String> preferredShows) {
+
         for (TVShow tvShow : tvShows) {
             double genrePreference = computeGenrePreference(tvShow.genre, preferredGenres);
             tvShow.value = (genrePreference);
@@ -70,6 +71,11 @@ public class Utils {
             }
         }
         return matches > 0 ? (double) matches / preferredGenres.size() : 0.0;
+    }
+
+    //David may need to implement this after changing the knapsack algorithm 
+    private static double computeShowPreference(String shows, List<String> preferredShows) {
+        return 0.0;
     }
 
     // This method is for summing up the values that we get from every movie chosen
