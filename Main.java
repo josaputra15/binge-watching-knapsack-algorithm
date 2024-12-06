@@ -17,27 +17,27 @@ public class Main extends Utils {
     }
 
     private static int getAvailableTime(Scanner scanner) {
-        int time = 0; 
-        boolean validInput = false; 
+        int time = 0;
+        boolean validInput = false;
 
-        //validating user input
+        // validating user input
         while (!validInput) {
             System.out.println("\nEnter your available time in hours:");
-            if (scanner.hasNextInt()) { 
+            if (scanner.hasNextInt()) {
                 time = scanner.nextInt() * 60;
-                validInput = true; 
+                validInput = true;
             } else {
                 System.out.println("\n >> Invalid input. Please enter digits only.");
-                scanner.next(); 
+                scanner.next();
             }
         }
-    return time;
-        
+        return time;
+
     }
 
     private static List<String> getPreferredGenres(Scanner scanner, EditDistance editDistance, Database db) {
         System.out.println("Enter your preferred genres (comma separated):");
-        scanner.nextLine(); 
+        scanner.nextLine();
         String[] preferredGenres = scanner.nextLine().split(", ");
         List<String> preferredGenreList = new ArrayList<>();
 
@@ -51,10 +51,10 @@ public class Main extends Utils {
                 if (response.equalsIgnoreCase("y")) {
                     preferredGenreList.add(suggestedGenre);
                 } else {
-                    preferredGenreList.add(pref);  // use the original genre if user disagrees
-                } 
+                    preferredGenreList.add(pref); // use the original genre if user disagrees
+                }
             } else {
-                preferredGenreList.add(suggestedGenre);  // add genre if it's a good match or no match
+                preferredGenreList.add(suggestedGenre); // add genre if it's a good match or no match
             }
         }
         return preferredGenreList;
@@ -99,11 +99,10 @@ public class Main extends Utils {
             runtime += show.totalDuration;
             count++;
         }
-        System.out.println("Total Runtime is approximately is " + runtime/60 + " hours.");
-        // System.out.println("Total Value: " + computeTotalValue(optimalSchedule)); not sure this needs to be displayed
+        System.out.println("Total Runtime is approximately is " + runtime / 60 + " hours.");
+        // System.out.println("Total Value: " + computeTotalValue(optimalSchedule)); not
+        // sure this needs to be displayed
     }
-
-
 
     public static void main(String[] args) {
         Database db = new Database();
@@ -130,4 +129,3 @@ public class Main extends Utils {
         displayOptimalSchedule(optimalSchedule);
     }
 }
-
