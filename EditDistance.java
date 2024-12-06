@@ -5,32 +5,48 @@ import java.util.List;
  */
 public class EditDistance {
 
-    public String suggestGenre(String input, List<TVShow> tvshows) {
+    public String suggestGenre(String input, Database db) {
         String closestGenre = null;
         int minDistance = Integer.MAX_VALUE;
     
         input = input.toLowerCase().trim();
         System.out.println("Input: " + input);   // testing purposes
-    
-        for (TVShow show : tvshows) {
-            String[] genres = show.genre.toLowerCase().split(", ");
-            
-            for (String genre : genres) {
-                System.out.println("Comparing to genre: " + genre);  //testing
-    
-                if (genre.equals(input)) {
-                    return genre;  // Exact match found
-                }
-    
-                int distance = calculateEditDistance(input, genre);
-                System.out.println("Distance to " + genre + ": " + distance);  
-    
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestGenre = genre;
-                }
+
+        List<String> genresDB = db.getGenres();
+
+        for (String genre : genresDB){
+
+            if(genre.toLowerCase().equals(input)){
+                return genre;
+            }
+
+            int distance = calculateEditDistance(input, genre.toLowerCase());
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestGenre = genre;
             }
         }
+    
+        // for (TVShow show : tvshows) {
+        //     String[] genres = show.genre.toLowerCase().split(", ");
+            
+        //     for (String genre : genres) {
+        //         System.out.println("Comparing to genre: " + genre);  //testing
+    
+        //         if (genre.equals(input)) {
+        //             return genre;  // Exact match found
+        //         }
+    
+        //         int distance = calculateEditDistance(input, genre);
+        //         System.out.println("Distance to " + genre + ": " + distance);  
+    
+        //         if (distance < minDistance) {
+        //             minDistance = distance;
+        //             closestGenre = genre;
+        //         }
+        //     }
+        // }
     
         System.out.println("Suggested Genre: " + closestGenre);  //testing
         

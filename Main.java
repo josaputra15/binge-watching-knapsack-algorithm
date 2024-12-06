@@ -41,17 +41,17 @@ public class Main extends Utils {
         String[] preferredGenres = scanner.nextLine().split(", ");
         List<String> preferredGenreList = new ArrayList<>();
 
-        for (String genre : preferredGenres) {
-            genre = genre.trim();
-            String suggestedGenre = editDistance.suggestGenre(genre, db.tvShows);
+        for (String pref : preferredGenres) {
+            pref = pref.trim();
+            String suggestedGenre = editDistance.suggestGenre(pref, db);
 
-            if (!suggestedGenre.equals("No close match found.") && !suggestedGenre.equalsIgnoreCase(genre)) {
+            if (!suggestedGenre.equals("No close match found.") && !suggestedGenre.equalsIgnoreCase(pref)) {
                 System.out.println(" >> Did you mean: " + suggestedGenre + "? (y/n)");
                 String response = scanner.nextLine().trim();
                 if (response.equalsIgnoreCase("y")) {
                     preferredGenreList.add(suggestedGenre);
                 } else {
-                    preferredGenreList.add(genre);  // sse the original genre if user disagrees
+                    preferredGenreList.add(pref);  // use the original genre if user disagrees
                 }
             } else {
                 preferredGenreList.add(suggestedGenre);  // add genre if it's a good match or no match
