@@ -45,7 +45,7 @@ public class Utils {
     public static void computeShowValues(List<TVShow> tvShows, List<String> preferredGenres) {
         for (TVShow tvShow : tvShows) {
             double genrePreference = computeGenrePreference(tvShow.genre, preferredGenres);
-            tvShow.value = (0.7 * tvShow.imdbRating) + (0.3 * genrePreference);
+            tvShow.value = (genrePreference);
             //ANYBODY PLEASE add another value you guys were talkin about and tinker with it and determine how to collect it
             //this part (and anything in the main class) are all you need to change how do we compute the value
         }
