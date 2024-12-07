@@ -11,7 +11,7 @@ public class EditDistance {
         int minDistance = Integer.MAX_VALUE;
     
         input = input.toLowerCase().trim();
-        System.out.println("Input: " + input);   // testing purposes
+        // System.out.println("Input: " + input);   // testing purposes
 
         List<String> genresDB = db.getGenres();
 
