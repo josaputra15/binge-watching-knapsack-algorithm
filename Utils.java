@@ -46,14 +46,11 @@ public class Utils {
 
     public static void computeShowValues(List<TVShow> tvShows, List<String> preferredGenres, List<String> preferredShows) {
 
+        assignShowPreference(preferredShows, tvShows);
+
         for (TVShow tvShow : tvShows) {
             double genrePreference = computeGenrePreference(tvShow.genre, preferredGenres);
-            tvShow.value = (genrePreference);
-            // TODO: ANYBODY PLEASE add another value you guys were talkin about and tinker
-            // with
-            // it and determine how to collect it
-            // this part (and anything in the main class) are all you need to change how do
-            // we compute the value
+            tvShow.value = (0.3 * genrePreference + 0.6 * tvShow.prefScore + 0.1 * tvShow.imdbRating);
         }
     }
 
@@ -80,9 +77,16 @@ public class Utils {
         return matches > 0 ? (double) matches / preferredGenres.size() : 0.0;
     }
 
-    //David may need to implement this after changing the knapsack algorithm 
-    private static double computeShowPreference(String shows, List<String> preferredShows) {
-        return 0.0;
+    private static  void assignShowPreference(List<String> preferredShows, List<TVShow> tvShows) {
+        double step = 10/preferredShows.size();
+    
+        for (int i = 0; i < preferredShows.size(); i++){
+            for (TVShow show : tvShows){
+                if (show.title.equals(preferredShows.get(i))){
+                    show.prefScore = 10 - (step * i);
+                }
+            }
+        }
     }
 
     // This method is for summing up the values that we get from every movie chosen
