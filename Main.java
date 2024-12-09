@@ -125,14 +125,10 @@ public class Main extends Utils {
 
                 if (response.equals("y")) {
                     preferredShowsList.add(suggestedShow);
-                } else {
-                    preferredShowsList.add(pref);
-                }
+                } 
             } else if (!suggestedShow.equals("No close match found.")) {
                 preferredShowsList.add(suggestedShow);
-            } else {
-                System.out.println(" >> Show not recognized: " + pref);
-            }
+            } 
         }
 
         return preferredShowsList;
@@ -181,7 +177,7 @@ public class Main extends Utils {
         computeShowValues(db.getTVShows(), preferredGenres, preferredShows);
 
         // Optimal Schedule
-        List<TVShow> optimalSchedule = getOptimalSchedule(db.getTVShows(), availableTime);
+        List<TVShow> optimalSchedule = getOptimalSchedule(db.getTVShows(), availableTime, preferredShows);
 
         // Display the results
         displayOptimalSchedule(optimalSchedule);

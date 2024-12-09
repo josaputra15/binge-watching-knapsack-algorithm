@@ -13,21 +13,28 @@ class Bucket {
 
 public class Utils {
     // Knapsack algorithm
-    public static List<TVShow> getOptimalSchedule(List<TVShow> tvShows, int capacity) {
+    public static List<TVShow> getOptimalSchedule(List<TVShow> tvShows, int capacity, List<String> preferredShows) {
+
+        List<TVShow> showsList = new ArrayList<>();
+        for (TVShow show : tvShows){
+            if (preferredShows.contains(show.title)){
+                showsList.add(show);
+            }
+        }
         List<Bucket> dp = new ArrayList<>();
         for (int i = 0; i < capacity + 1; i++) {
             dp.add(new Bucket(new ArrayList<>(), 0));
         }
 
-        int n = tvShows.size();
+        int n = showsList.size();
         for (int i = 1; i < n + 1; i++) {
             for (int w = capacity; w >= 0; w--) {
-                int weight = tvShows.get(i - 1).totalDuration;
-                double val = tvShows.get(i - 1).value;
+                int weight = showsList.get(i - 1).totalDuration;
+                double val = showsList.get(i - 1).value;
 
                 if (weight <= w && dp.get(w).value < dp.get(w - weight).value + val) {
                     List<TVShow> newTvShows = new ArrayList<>(dp.get(w - weight).tvShows);
-                    newTvShows.add(tvShows.get(i - 1));
+                    newTvShows.add(showsList.get(i - 1));
                     dp.set(w, new Bucket(newTvShows, dp.get(w - weight).value + val));
                 }
             }
