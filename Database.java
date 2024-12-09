@@ -7,6 +7,7 @@ class TVShow {
     double imdbRating;
     int totalDuration; // in minutes
     double value;
+    double prefScore;
 
     public TVShow(String title, String genre, double imdbRating, int totalDuration) {
         this.title = title;
@@ -14,6 +15,7 @@ class TVShow {
         this.imdbRating = imdbRating;
         this.totalDuration = totalDuration;
         this.value = 0;
+        this.prefScore = 0;
     }
 
     @Override
