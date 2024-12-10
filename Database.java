@@ -49,6 +49,8 @@ public class Database {
         return genres;
     }
 
+
+
     public void populateDatabase() {
         this.tvShows.add(new TVShow("Breaking Bad", "Crime, Drama, Thriller", 9.5, 2940)); // 49 minutes * 60 episodes
         this.tvShows.add(new TVShow("Game of Thrones", "Action, Adventure, Drama", 9.3, 4074)); // 57 minutes * 71
