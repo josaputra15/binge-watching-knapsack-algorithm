@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a TV show with attributes such as title, genre, IMDb rating, 
+ * total duration in minutes, value, and preference score.
+ */
 class TVShow {
     String title;
     String genre;
@@ -25,6 +29,10 @@ class TVShow {
     }
 }
 
+/**
+ * Represents a database of TV shows, with functionality to retrieve TV shows, 
+ * get a list of unique genres, and populate the database with predefined data.
+ */
 public class Database {
     List<TVShow> tvShows;
 
@@ -49,8 +57,10 @@ public class Database {
         return genres;
     }
 
-
-
+    /**
+     * Populates the database with a predefined list of TV shows, including their 
+     * titles, genres, IMDb ratings, and total durations.
+     */
     public void populateDatabase() {
         this.tvShows.add(new TVShow("Breaking Bad", "Crime, Drama, Thriller", 9.5, 2940)); // 49 minutes * 60 episodes
         this.tvShows.add(new TVShow("Game of Thrones", "Action, Adventure, Drama", 9.3, 4074)); // 57 minutes * 71

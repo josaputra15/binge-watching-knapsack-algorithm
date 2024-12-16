@@ -1,7 +1,9 @@
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Demonstrates the value calculation involved in the optimal schedule generation process
+ */
 public class ValueCalculationDemo extends Utils{
     public static void main(String[] args) {
         // Example dataset of TV shows

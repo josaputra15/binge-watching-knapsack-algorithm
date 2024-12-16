@@ -6,12 +6,20 @@ import java.util.List;
  */
 public class EditDistance {
 
+    /**
+     * Suggests the closest matching genre from the database based on the input string.
+     * Uses the Levenshtein Edit Distance algorithm to calculate the difference between the input 
+     * genre and genres in the database.
+     * 
+     * @param input The genre input by the user to compare against the database.
+     * @param db The database containing the genres to be compared.
+     * @return The closest genre found in the database, or a message indicating no close match.
+     */
     public String suggestGenre(String input, Database db) {
         String closestGenre = null;
         int minDistance = Integer.MAX_VALUE;
     
         input = input.toLowerCase().trim();
-        // System.out.println("Input: " + input);   // testing purposes
 
         List<String> genresDB = db.getGenres();
 
@@ -28,11 +36,19 @@ public class EditDistance {
                 closestGenre = genre;
             }
         }
-        System.out.println("Suggested Genre: " + closestGenre);  //testing
         
         return closestGenre != null ? closestGenre : "No close match found.";
     }
 
+     /**
+     * Suggests the closest matching TV show from the database based on the input string.
+     * Uses the Levenshtein Edit Distance algorithm to calculate the difference between the input 
+     * show title and TV show titles in the database.
+     * 
+     * @param input The TV show title input by the user to compare against the database.
+     * @param db The database containing the TV show titles to be compared.
+     * @return The closest TV show title found in the database, or a message indicating no close match.
+     */
     public String suggestShow(String input, Database db) {
         String closestShow = null;
         int minDistance = Integer.MAX_VALUE; 
@@ -48,7 +64,7 @@ public class EditDistance {
             String normalizedShow = show.toLowerCase().trim(); 
     
             if (normalizedShow.equals(input)) {
-                return show; // 
+                return show; 
             }
     
             int distance = calculateEditDistance(input, normalizedShow);
@@ -58,14 +74,19 @@ public class EditDistance {
                 closestShow = show;
             }
         }
-    
-        // Return closest match or indicate no match found.
-        System.out.println(closestShow);
+
         return closestShow != null ? closestShow : "No close match found.";
         
     }
     
 
+    /**
+     * Calculates the Levenshtein Edit Distance between two strings.
+     * 
+     * @param str1 The first string to compare.
+     * @param str2 The second string to compare.
+     * @return The Levenshtein Edit Distance between the two strings.
+     */
     private int calculateEditDistance(String str1, String str2) {
         int n = str1.length();
         int m = str2.length();
@@ -88,6 +109,13 @@ public class EditDistance {
         return dist[n][m];
     }
 
+     /**
+     * Determines if two characters match.
+     * 
+     * @param a The first character.
+     * @param b The second character.
+     * @return 0 if the characters match, or 1 if they do not match.
+     */
     private int match(char a, char b) {
         return a == b ? 0 : 1;
     }

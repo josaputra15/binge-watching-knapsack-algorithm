@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Main class that facilitates user interaction with the TV show selection system. 
+ * It allows users to input their preferences and computes an optimal binge-watching schedule based on available time and selected genres/shows.
+ */
 public class Main extends Utils {
 
     private static void printSeparator() {
@@ -12,10 +16,22 @@ public class Main extends Utils {
     private static final String CYAN = "\u001B[36m";
     private static final String YELLOW = "\u001B[33m";
 
+     /**
+     * Displays a highlighted header with cyan color.
+     *
+     * @param text The text to be displayed in the header.
+     */
     private static void displayHighlightedHeader(String text) {
         System.out.println(CYAN + text + RESET);
     }
 
+    /**
+     * Truncates a string to a specified maximum length, appending "..." if the string exceeds the maximum length.
+     *
+     * @param input The input string to be truncated.
+     * @param maxLength The maximum allowed length for the string.
+     * @return A truncated string if it exceeds the specified length, otherwise returns the input string.
+     */
     private static String truncate(String input, int maxLength) {
         if (input.length() > maxLength) {
             return input.substring(0, maxLength - 3) + "...";
@@ -23,7 +39,12 @@ public class Main extends Utils {
         return input;
     }
 
-    // Generates a separator line dynamically based on total column width
+    /**
+     * Generates a separator line dynamically based on the total column width for formatting tables.
+     *
+     * @param totalWidth The total width of the table.
+     * @return A string containing the separator line.
+     */
     private static String generateSeparator(int totalWidth) {
         StringBuilder separator = new StringBuilder();
         for (int i = 0; i < totalWidth; i++) {
@@ -32,6 +53,11 @@ public class Main extends Utils {
         return separator.toString();
     }
 
+     /**
+     * Displays the available TV shows in a formatted table.
+     *
+     * @param db The database containing the TV shows.
+     */
     private static void displayTVShowsInTable(Database db) {
         displayHighlightedHeader("\nAvailable TV Shows:");
         System.out.println(String.format("%-4s | %-35s | %-30s | %-10s | %-15s", 
@@ -49,6 +75,11 @@ public class Main extends Utils {
         }
     }
 
+     /**
+     * Displays the available genres in a formatted column layout.
+     *
+     * @param genres The list of genres to be displayed.
+     */
     private static void displayGenresInColumns(List<String> genres) {
         displayHighlightedHeader("\nAvailable Genres:");
         int columns = 3;
@@ -66,6 +97,12 @@ public class Main extends Utils {
         }
     }
 
+    /**
+     * Prompts the user to input their available time in hours and converts it to minutes.
+     *
+     * @param scanner The Scanner instance used to read user input.
+     * @return The available time in minutes.
+     */
     private static int getAvailableTime(Scanner scanner) {
         int time = 0;
         boolean validInput = false;
@@ -83,6 +120,14 @@ public class Main extends Utils {
         return time;
     }
 
+    /**
+     * Prompts the user to input their preferred genres and uses the edit distance algorithm to suggest corrections.
+     *
+     * @param scanner The Scanner instance used to read user input.
+     * @param editDistance The EditDistance instance used for genre suggestion.
+     * @param db The database containing the TV shows.
+     * @return A list of the user's preferred genres, possibly corrected based on suggestions.
+     */
     private static List<String> getPreferredGenres(Scanner scanner, EditDistance editDistance, Database db) {
         System.out.println("\nEnter your preferred genres (comma separated):");
         scanner.nextLine();
@@ -108,6 +153,14 @@ public class Main extends Utils {
         return preferredGenreList;
     }
 
+     /**
+     * Prompts the user to input their preferred shows and uses the edit distance algorithm to suggest corrections.
+     *
+     * @param scanner The Scanner instance used to read user input.
+     * @param editDistance The EditDistance instance used for show suggestion.
+     * @param db The database containing the TV shows.
+     * @return A list of the user's preferred TV shows, possibly corrected based on suggestions.
+     */
     private static List<String> getPreferredShows(Scanner scanner, EditDistance editDistance, Database db) {
         System.out.println("\nEnter your list of shows you want to watch (comma separated):");
         String input = scanner.nextLine().trim();
@@ -134,6 +187,11 @@ public class Main extends Utils {
         return preferredShowsList;
     }
 
+     /**
+     * Displays the optimal binge-watching schedule based on the selected shows and available time.
+     *
+     * @param optimalSchedule The list of TV shows selected for the optimal schedule.
+     */
     private static void displayOptimalSchedule(List<TVShow> optimalSchedule) {
         displayHighlightedHeader("\nOptimal Binge-Watching Schedule:");
         // Print the header
@@ -159,6 +217,12 @@ public class Main extends Utils {
     }
     
 
+    /**
+     * Main method to run the application. It interacts with the user to gather inputs,
+     * processes the available TV shows based on preferences, and displays the optimal schedule.
+     *
+     * @param args Command-line arguments (unused).
+     */
     public static void main(String[] args) {
         Database db = new Database();
         Scanner scanner = new Scanner(System.in);
